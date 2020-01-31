@@ -15,7 +15,16 @@ class PackAllocationController extends \Controller
 	public function get(Request $request, Response $response, array $args): Response
 	{
 		try {
-			var_dump($request); die;
+			$packAllocation = $this->message_bus->sync(
+				'gs-order',
+				[
+					'role' => 'pack',
+					'cmd' => 'allocate',
+					'payload' => [
+						'requiredItems' => $this->validateInput($request),
+					],
+				]
+			);
 
 			$api_response = new SuccessSingleResponse($packAllocation, 'Successful Pack Allocation');
 		} catch (\Exception $e) {
