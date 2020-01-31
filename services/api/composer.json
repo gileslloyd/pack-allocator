@@ -2,7 +2,7 @@
     "name": "gileslloyd/gymshark",
     "type": "metapackage",
     "description": "",
-    "keywords": ["framework"],
+    "keywords": [],
     "authors": [
         {
             "name": "Giles Lloyd",
@@ -11,38 +11,20 @@
     ],
     "require": {
         "php": "^7.4",
-        "league/container": "2.*",
         "slim/slim": "^4.0",
-        "monolog/monolog": "^1.23",
-        "league/tactician": "^1.0",
-        "league/tactician-container": "^2.0",
-        "symfony/console": "^4.2@dev",
-		"doctrine/migrations": "^2.0@dev",
-		"doctrine/orm": "^2.6",
-        "prooph/service-bus": "^6.2",
-        "prooph/event-sourcing": "^5.6",
-        "prooph/event-store": "^7.5",
-        "prooph/pdo-event-store": "^1.11",
-        "prooph/event-store-bus-bridge": "^3.3",
-        "prooph/snapshotter": "^2.1",
-        "prooph/pdo-snapshot-store": "^1.5",
         "slim/psr7": "^0.6.0",
         "akrabat/rka-content-type-renderer": "^1.0",
-        "ramsey/uuid": "^3.8",
-        "cableandcode/microservice-core": "dev-master"
+        "php-amqplib/php-amqplib": "^2.11"
 	},
     "require-dev": {
-        "fzaninotto/faker": "~1.4",
-        "mockery/mockery": "0.9.*",
-        "phpunit/phpunit": "~6.5",
-        "behat/behat": "^3.4",
 		"phpmd/phpmd": " 2.6.*",
 		"squizlabs/php_codesniffer": "*"
 	},
-	"repositories": {
-	  "0": {
-		"type": "git",
-		"url": "https://giles_lloyd@bitbucket.org/giles_lloyd/microservice-core.git"
+	"autoload": {
+	  "psr-4": {
+		"": [
+		  "classes/"
+		]
 	  }
 	},
     "minimum-stability": "dev",

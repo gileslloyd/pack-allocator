@@ -9,7 +9,7 @@ services:
      - "80:80"
     volumes:
      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
-     - ./services/api:/var/www/vhosts/app/api
+     - ./services/api:/var/www/vhosts/api
     working_dir: /var/www/vhosts/app
     depends_on:
       - "api"
@@ -19,14 +19,18 @@ services:
      ports:
        - "9000:9000"
      volumes:
-       - ./services/api:/var/www/vhosts/app
+       - ./services/api:/var/www/vhosts/api
        - ./bin/migrations:/usr/local/bin/migrations
      working_dir: /var/www/vhosts/app
      environment:
        - ENV=development
        - API_KEY=49667D4B53178C27836C56A19EA38
+       - RABBIT_HOST=rabbit
+       - RABBIT_PORT=5672
+       - RABBIT_USER=guest
+       - RABBIT_PASSWORD=guest
      depends_on:
-       - db
+       - rabbit
 
   db:
      image: postgres:10.2-alpine
@@ -40,6 +44,11 @@ services:
        POSTGRES_USER: 'gymshark'
        POSTGRES_PASSWORD: password
        POSTGRES_DB: 'gymshark'
+
+  rabbit:
+     image: rabbitmq:3-management
+     ports:
+       - "8081:15672"
 
 volumes:
     gymshark-data: {}
