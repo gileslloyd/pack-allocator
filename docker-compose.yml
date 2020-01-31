@@ -1,0 +1,45 @@
+version: '3.7'
+
+services:
+
+  nginx:
+    image: nginx:alpine
+    ports:
+     - "8080:8080"
+     - "80:80"
+    volumes:
+     - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+     - ./services/api:/var/www/vhosts/app/api
+    working_dir: /var/www/vhosts/app
+    depends_on:
+      - "api"
+
+  api:
+     build: docker/api
+     ports:
+       - "9000:9000"
+     volumes:
+       - ./services/api:/var/www/vhosts/app
+       - ./bin/migrations:/usr/local/bin/migrations
+     working_dir: /var/www/vhosts/app
+     environment:
+       - ENV=development
+       - API_KEY=49667D4B53178C27836C56A19EA38
+     depends_on:
+       - db
+
+  db:
+     image: postgres:10.2-alpine
+     restart: always
+     ports:
+       - "5432:5432"
+     volumes:
+       - gymshark-data:/var/lib/postgresql/data
+       - ./docker/postgresql:/docker-entrypoint-initdb.d
+     environment:
+       POSTGRES_USER: 'gymshark'
+       POSTGRES_PASSWORD: password
+       POSTGRES_DB: 'gymshark'
+
+volumes:
+    gymshark-data: {}

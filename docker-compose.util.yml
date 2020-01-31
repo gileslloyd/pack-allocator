@@ -1,0 +1,10 @@
+version: '3.7'
+volumes:
+  vendor:
+
+services:
+  composer:
+    image: prooph/composer:7.4
+    volumes:
+      - ./services/api:/var/www/vhosts/app
+    working_dir: /var/www/vhosts/app
