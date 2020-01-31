@@ -32,6 +32,11 @@ services:
      depends_on:
        - rabbit
 
+  menu-parser-service:
+     build: services/allocation
+     depends_on:
+       - rabbit
+
   db:
      image: postgres:10.2-alpine
      restart: always
