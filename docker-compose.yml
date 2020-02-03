@@ -32,9 +32,14 @@ services:
      depends_on:
        - rabbit
 
-  menu-parser-service:
+  allocation-service:
      build: services/allocation
+     environment:
+       - MICRO_REGISTRY_ADDRESS=consul:8500
+       - MICRO_BROKER_ADDRESS=amqp://guest:guest@rabbit:5672/
+       - MICRO_BROKER=rabbitmq
      depends_on:
+       - consul
        - rabbit
 
   db:
@@ -54,6 +59,12 @@ services:
      image: rabbitmq:3-management
      ports:
        - "8081:15672"
+
+  consul:
+     image: progrium/consul:latest
+     command: -server -bootstrap -rejoin
+     ports:
+       - "8500"
 
 volumes:
     gymshark-data: {}
