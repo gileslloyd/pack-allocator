@@ -44,7 +44,13 @@ func (a App) listen() {
 			fmt.Sprintf("ERROR: %v", err)
 		}
 
-		fmt.Println(response)
+		broker.Publish(
+			"",
+			broker.Message{
+				Body: []byte(response),
+			},
+			p.
+		)
 
 		return nil
 	}, broker.Queue("gs-order"))
@@ -52,4 +58,8 @@ func (a App) listen() {
 	if err != nil {
 		panic(err)
 	}
+}
+
+func (a App) reply() {
+
 }
