@@ -10,12 +10,12 @@ func NewMessage(data map[string]interface{}) *Message {
 	}
 }
 
-func (m Message) Get(key string, def string) string {
+func (m Message) Get(key string, def string) interface{} {
 	val := m.data[key]
 
 	if val == nil {
 		return def
 	}
 
-	return val.(string)
+	return val
 }

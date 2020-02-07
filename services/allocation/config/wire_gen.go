@@ -7,7 +7,10 @@ package config
 
 import (
 	"github.com/gileslloyd/gs-allocation-service/internal"
+	"github.com/gileslloyd/gs-allocation-service/internal/domain/allocation"
 	"github.com/gileslloyd/gs-allocation-service/internal/infrastructure"
+	"github.com/gileslloyd/gs-allocation-service/internal/infrastructure/controller"
+	"github.com/gileslloyd/gs-allocation-service/internal/infrastructure/microrepo"
 )
 
 // Injectors from container.go:
@@ -17,4 +20,12 @@ func CreateApp() internal.App {
 	router := infrastructure.NewRouter(v)
 	app := internal.NewApp(router)
 	return app
+}
+
+func CreateAllocationController() controller.Allocation {
+	repository := microrepo.NewMicroPackRepo()
+	rule := allocation.NewPackAllocationRule()
+	service := allocation.NewAllocationService(repository, rule)
+	controllerAllocation := controller.NewAllocationController(service)
+	return controllerAllocation
 }

@@ -38,7 +38,14 @@ func (a App) listen() {
 	}
 
 	_, err := broker.Subscribe("", func(p broker.Event) error {
-		a.router.Process(string(p.Message().Body))
+		response, err := a.router.Process(string(p.Message().Body))
+
+		if err != nil {
+			fmt.Sprintf("ERROR: %v", err)
+		}
+
+		fmt.Println(response)
+
 		return nil
 	}, broker.Queue("gs-order"))
 
