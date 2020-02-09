@@ -4,7 +4,7 @@ volumes:
 
 services:
   composer:
-    image: prooph/composer:7.4
+    build: docker/composer
     volumes:
       - ./services/api:/var/www/vhosts/api
     working_dir: /var/www/vhosts/api
