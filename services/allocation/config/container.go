@@ -3,27 +3,26 @@
 package config
 
 import (
-	"github.com/gileslloyd/gs-allocation-service/internal"
+	controller2 "github.com/gileslloyd/gs-allocation-service/internal/app/controller"
 	"github.com/gileslloyd/gs-allocation-service/internal/domain/allocation"
-	"github.com/gileslloyd/gs-allocation-service/internal/infrastructure"
-	"github.com/gileslloyd/gs-allocation-service/internal/infrastructure/controller"
-	"github.com/gileslloyd/gs-allocation-service/internal/infrastructure/microrepo"
+	"github.com/gileslloyd/gs-allocation-service/pkg/infrastructure/delivery/rpc"
+	"github.com/gileslloyd/gs-allocation-service/pkg/infrastructure/microrepo"
 	"github.com/google/wire"
 )
 
-func CreateApp() internal.App {
-	panic(wire.Build(
-		GetRoutes,
-		infrastructure.NewRouter,
-		internal.NewApp,
-	))
-}
-
-func CreateAllocationController() controller.Allocation {
+func CreateAllocationController() controller2.Allocation {
 	panic(wire.Build(
 		microrepo.NewMicroPackRepo,
 		allocation.NewPackAllocationRule,
 		allocation.NewAllocationService,
-		controller.NewAllocationController,
+		controller2.NewAllocationController,
+	))
+}
+
+func CreateMessageListener() rpc.MessageListener {
+	panic(wire.Build(
+		GetRoutes,
+		rpc.NewHandler,
+		rpc.NewMessageListener,
 	))
 }

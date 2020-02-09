@@ -6,21 +6,13 @@
 package config
 
 import (
-	"github.com/gileslloyd/gs-allocation-service/internal"
+	"github.com/gileslloyd/gs-allocation-service/internal/app/controller"
 	"github.com/gileslloyd/gs-allocation-service/internal/domain/allocation"
-	"github.com/gileslloyd/gs-allocation-service/internal/infrastructure"
-	"github.com/gileslloyd/gs-allocation-service/internal/infrastructure/controller"
-	"github.com/gileslloyd/gs-allocation-service/internal/infrastructure/microrepo"
+	"github.com/gileslloyd/gs-allocation-service/pkg/infrastructure/delivery/rpc"
+	"github.com/gileslloyd/gs-allocation-service/pkg/infrastructure/microrepo"
 )
 
 // Injectors from container.go:
-
-func CreateApp() internal.App {
-	v := GetRoutes()
-	router := infrastructure.NewRouter(v)
-	app := internal.NewApp(router)
-	return app
-}
 
 func CreateAllocationController() controller.Allocation {
 	repository := microrepo.NewMicroPackRepo()
@@ -28,4 +20,11 @@ func CreateAllocationController() controller.Allocation {
 	service := allocation.NewAllocationService(repository, rule)
 	controllerAllocation := controller.NewAllocationController(service)
 	return controllerAllocation
+}
+
+func CreateMessageListener() rpc.MessageListener {
+	v := GetRoutes()
+	handler := rpc.NewHandler(v)
+	messageListener := rpc.NewMessageListener(handler)
+	return messageListener
 }

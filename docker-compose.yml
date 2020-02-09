@@ -39,7 +39,6 @@ services:
        - MICRO_BROKER_ADDRESS=amqp://guest:guest@rabbit:5672/
        - MICRO_BROKER=rabbitmq
      depends_on:
-       - consul
        - rabbit
 
   db:
@@ -59,12 +58,7 @@ services:
      image: rabbitmq:3-management
      ports:
        - "8081:15672"
-
-  consul:
-     image: progrium/consul:latest
-     command: -server -bootstrap -rejoin
-     ports:
-       - "8500"
+       - "5672:5672"
 
 volumes:
     gymshark-data: {}

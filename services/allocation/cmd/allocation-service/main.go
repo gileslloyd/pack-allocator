@@ -1,11 +1,9 @@
 package main
 
-import (
-	"github.com/gileslloyd/gs-allocation-service/config"
-)
+import "github.com/gileslloyd/gs-allocation-service/internal/app"
 
 func main() {
-	app := config.CreateApp()
+	a := app.NewApp()
 
-	app.Start()
+	a.Run()
 }
