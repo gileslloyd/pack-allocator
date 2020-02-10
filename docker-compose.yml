@@ -34,12 +34,17 @@ services:
 
   allocation-service:
      build: services/allocation
-     environment:
-       - MICRO_REGISTRY_ADDRESS=consul:8500
-       - MICRO_BROKER_ADDRESS=amqp://guest:guest@rabbit:5672/
-       - MICRO_BROKER=rabbitmq
      depends_on:
        - rabbit
+
+  pack-service:
+    build: docker/services/node
+    working_dir: /usr/src/app
+    volumes:
+      - ./services/pack:/usr/src/app
+    depends_on:
+      - rabbit
+      - db
 
   db:
      image: postgres:10.2-alpine
