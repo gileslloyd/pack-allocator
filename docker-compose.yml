@@ -32,6 +32,15 @@ services:
      depends_on:
        - rabbit
 
+  allocation-service:
+     build: services/allocation
+     environment:
+       - MICRO_REGISTRY_ADDRESS=consul:8500
+       - MICRO_BROKER_ADDRESS=amqp://guest:guest@rabbit:5672/
+       - MICRO_BROKER=rabbitmq
+     depends_on:
+       - rabbit
+
   db:
      image: postgres:10.2-alpine
      restart: always
@@ -49,6 +58,7 @@ services:
      image: rabbitmq:3-management
      ports:
        - "8081:15672"
+       - "5672:5672"
 
 volumes:
     gymshark-data: {}

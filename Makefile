@@ -9,6 +9,12 @@ setup:
 	@make composer C=install
 	@make migrations C=migrate
 
+gobuild:
+	@cd ./services/${S} && wire ./config/ && env GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build cmd/${S}-service/main.go && cd -
+	@docker-compose stop ${S}-service
+	@docker-compose build ${S}-service
+	@docker-compose up -d ${S}-service
+
 test:
 	@docker-compose exec app ./vendor/bin/phpunit
 	@docker-compose exec app ./vendor/bin/behat tests/behavioural/features/orderFulfillment.feature
