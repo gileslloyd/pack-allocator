@@ -17,7 +17,15 @@ func NewAllocationService(repository pack.Repository, rule Rule) Service {
 }
 
 func (s Service) GetPackAllocation(requiredItems int) map[int]int {
-	packs := s.repo.GetAll()
+	return s.rule.CalculatePackAllocation(requiredItems, s.getPackSizes())
+}
 
-	return s.rule.CalculatePackAllocation(requiredItems, packs)
+func (s Service) getPackSizes() []int {
+	packSizes := []int{}
+
+	for _, p := range s.repo.GetAll() {
+		packSizes = append(packSizes, p.GetSize())
+	}
+
+	return packSizes
 }

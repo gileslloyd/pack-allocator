@@ -4,8 +4,6 @@ import (
 	"reflect"
 	"strconv"
 	"testing"
-
-	"github.com/gileslloyd/gs-allocation-service/pkg/infrastructure/inmemoryrepo"
 )
 
 type allocation struct {
@@ -31,12 +29,12 @@ func getAllocationTable() []allocation {
 
 func TestCalculatingPackAllocation(t *testing.T) {
 	rule := NewPackAllocationRule()
-	packs := inmemoryrepo.NewInMemoryPackRepo().GetAll()
+	packSizes := []int{250, 500, 1000, 2000, 5000}
 
 	for _, table := range getAllocationTable() {
-		actualAllocation := rule.CalculatePackAllocation(table.requiredItems, packs)
+		actualAllocation := rule.CalculatePackAllocation(table.requiredItems, packSizes)
 
-		for _, packSize := range []int{250, 500, 1000, 2000, 5000} {
+		for _, packSize := range packSizes {
 			r := reflect.ValueOf(table)
 			f := reflect.Indirect(r).FieldByName("num_" + strconv.Itoa(packSize))
 			expectedAllocation := int(f.Int())
